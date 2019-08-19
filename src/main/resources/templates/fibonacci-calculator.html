@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Fibonacci Calculator</title>
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+<body>
+<h1>Fibonacci Calculator</h1>
+
+<form action="#" modelAttribute="fibonacciIndex"th:action="@{/}" th:object="${fibonacciIndex}" method="post">
+    <p>Index: <input type="text" th:field="*{index}"/></p>
+    <p><input type="submit" value="Submit"/></p>
+</form>
+
+</body>
+</html>
