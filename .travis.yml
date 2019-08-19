@@ -4,18 +4,23 @@ sudo: false
 
 services:
   - docker
+
 before_install:
   - pip install --user awscli
   - export PATH=$PATH:$HOME/.local/bin
 
 script:
   - mvn clean verify
-  - eval $(aws ecr get-login --region us-east-2)
   - docker-compose build
-  - docker tag fibonacci-image:latest 804465465906.dkr.ecr.us-east-2.amazonaws.com/fibonacci-calculator:latest
-  - docker push 804465465906.dkr.ecr.us-east-2.amazonaws.com/fibonacci-calculator:latest
 
-env:
-  global:
+deploy:
+  provider: elasticbeanstalk
+  access_key_id:
     - secure: kf5WkenDrGkALlrtj7XqJ/t5zbVj9kKfEnF2mEYA8Q4vzLzZ8uKwSjE19HQdoFDogK4gmxa25YOWUlnrYDCwXp6e8EcHTsjbKDQKilcNcnLUzH3fq+mERKpUOb4uAFLU2i5uBxVIxMz6pv7gIOJZfpT2dPu2oS9eVr6sbiugXvitFOZrL4bfMDzFLS+v1GVED2xPV8dAtM1uzC6IsfbqIsga6M2PsonReoD8qm/z3xqyjamjYaMfVNHVNR/u+vWrwOCn1/MUCQ2qBtIDEEqDN3in146zNu8dIRatepcxMCiFKpKKLHJaHUgZ9Ti1hCmLLZFjbysI26HBivoTkv8l20KrJHkGGc5gOGi8qA3TjchqnWQC4sjPhIMiYPSH3eci5cy0Pn+UKtg0yViyF9Cj/cIBtIKd8XkgrPmXcXwOZ8DLeZ5DOskuBsUb4r9/AiKnsjVMVvD+QKGAFbSll8O7/xe9zbUjMmqZy3f+0SYhM2xFuijCR6ncxuavg9OA1hMxq3pJ0oK+iCmWj2LnSV0PLF9bZu9IdgzEpofez1FyjdBy4zLprbqtT4s9XOeVwhV32vyXEo2lU2oGetAb7wMk7058DlN3zBIsrtbt7gfh2F71JERWrHnexzUG40X8nScEjRF2EjK6DK0tn/9Kkk9RzpWvZMgQJBLKCXxs8j6SxCM=
+  secret_access_key:
     - secure: uttfVdtSEijaj+hFsHxoyFi+z375PF69aJIZ99ngZNm+IkQmkSn/4ydV5D4WFN1O6Akob/qgbRbOdbK8Suen1K7wPPTGsqxEBhsyWlSfgCGaOYXsjN1prbCR9T4BvLWdUmw9YD8haXKhz7lU7kt0jE2yegft/4e/rNqsiTlwXatx2ea2uPRtp4a6PbrOqF5kbFgARjxgpKBuDZHynBR8v+Vj3HxDh/+UGvkcpzAl2YlR0Lj5esPCuLs3Sc9Tc5uW+n49+qTPRsvm8SJq174Ess3WpszAioos9HXfVp58rhrRCGlK/cz0YR+bGpK1G5aQV4AzC+EKLf4j+n7+97wVlZLQycwvkakkCktCMwdbv/iUXHAR+jO8yU1NKXnwZ6SYF+5mdgHTMZoX6ctQ10cSv5Ra8KkF2mq/DuHM1r+8bzmi2tPRdNXcon777bT+yWkayw+x0bGhS+ZI4y56Rny8dTu7y/UrJnIWEBBSp01VSmWo7KiJfsvwPuxwTs7rFWeb3JeESAaADP2wLR36QnBGQpMPLIdPvFxlm7ggFxae5kg/xP9R7XG3Ahv0r/JQ1zGVQAdaIbdV29vPyCWuYN2rFMjeQTj0OvVD8wmbhrnpaNi+/hfNUIi2I4cmwuISUFN6nYMCBoRdBfrGoN9cRNHUcu1eC/Zm1y6VNPnNW+Kp1YA=
+  region: "us-east-2"
+  app: "fibonacci-calculator"
+  env: "FibonacciCalculator-env.hv8be3e3kf.us-east-2.elasticbeanstalk.com"
+  bucket_name: "elasticbeanstalk-us-east-2-804465465906"
+
