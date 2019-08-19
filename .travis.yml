@@ -14,5 +14,5 @@ deploy:
   secret_access_key: $ACCESSKEYSECRET
   region: us-east-2
   app: docker-fibonacci
-  env: DockerFibonacci-env.7z55r2iwvp.us-east-2.elasticbeanstalk.com
+  env: DockerFibonacci-env
   bucket_name: elasticbeanstalk-us-east-2-804465465906
