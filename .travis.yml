@@ -16,3 +16,5 @@ deploy:
   app: docker-fibonacci
   env: DockerFibonacci-env
   bucket_name: elasticbeanstalk-us-east-2-804465465906
+  on:
+    branch: master
