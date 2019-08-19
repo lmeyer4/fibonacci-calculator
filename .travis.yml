@@ -1,11 +1,20 @@
 language: java
+
 sudo: false
+
+services:
+  - docker
+before_install:
+  - pip install --user awscli
+  - export PATH=$PATH:$HOME/.local/bin
+
 script:
   - mvn clean verify
   - eval $(aws ecr get-login --region us-east-2)
   - docker-compose build
   - docker tag fibonacci-image:latest 804465465906.dkr.ecr.us-east-2.amazonaws.com/fibonacci-calculator:latest
   - docker push 804465465906.dkr.ecr.us-east-2.amazonaws.com/fibonacci-calculator:latest
+
 env:
   global:
     - secure: kf5WkenDrGkALlrtj7XqJ/t5zbVj9kKfEnF2mEYA8Q4vzLzZ8uKwSjE19HQdoFDogK4gmxa25YOWUlnrYDCwXp6e8EcHTsjbKDQKilcNcnLUzH3fq+mERKpUOb4uAFLU2i5uBxVIxMz6pv7gIOJZfpT2dPu2oS9eVr6sbiugXvitFOZrL4bfMDzFLS+v1GVED2xPV8dAtM1uzC6IsfbqIsga6M2PsonReoD8qm/z3xqyjamjYaMfVNHVNR/u+vWrwOCn1/MUCQ2qBtIDEEqDN3in146zNu8dIRatepcxMCiFKpKKLHJaHUgZ9Ti1hCmLLZFjbysI26HBivoTkv8l20KrJHkGGc5gOGi8qA3TjchqnWQC4sjPhIMiYPSH3eci5cy0Pn+UKtg0yViyF9Cj/cIBtIKd8XkgrPmXcXwOZ8DLeZ5DOskuBsUb4r9/AiKnsjVMVvD+QKGAFbSll8O7/xe9zbUjMmqZy3f+0SYhM2xFuijCR6ncxuavg9OA1hMxq3pJ0oK+iCmWj2LnSV0PLF9bZu9IdgzEpofez1FyjdBy4zLprbqtT4s9XOeVwhV32vyXEo2lU2oGetAb7wMk7058DlN3zBIsrtbt7gfh2F71JERWrHnexzUG40X8nScEjRF2EjK6DK0tn/9Kkk9RzpWvZMgQJBLKCXxs8j6SxCM=
